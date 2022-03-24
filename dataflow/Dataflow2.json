@@ -19,7 +19,15 @@
 					"name": "source2"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText3",
+						"type": "DatasetReference"
+					},
+					"name": "Customer"
+				}
+			],
 			"transformations": [
 				{
 					"name": "select1"
@@ -43,7 +51,10 @@
 					"name": "derivedColumn4"
 				},
 				{
-					"name": "join1"
+					"name": "union1"
+				},
+				{
+					"name": "derivedColumn5"
 				}
 			],
 			"scriptLines": [
@@ -113,9 +124,16 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select3",
 				"derivedColumn3 derive(UniqueID = concat(toString(SourceID), CustomerID)) ~> derivedColumn4",
-				"derivedColumn4, derivedColumn2 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
-				"     joinType:'outer',",
-				"     broadcast: 'auto')~> join1"
+				"derivedColumn2, derivedColumn4 union(byName: true)~> union1",
+				"union1 derive(CreatedDate = toTimestamp(CreatedDate),",
+				"          UpdatedDate = toTimestamp(UpdatedDate)) ~> derivedColumn5",
+				"derivedColumn5 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Customer"
 			]
 		}
 	}
