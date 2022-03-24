@@ -17,6 +17,20 @@
 						"type": "DatasetReference"
 					},
 					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText4",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText5",
+						"type": "DatasetReference"
+					},
+					"name": "source4"
 				}
 			],
 			"sinks": [
@@ -55,6 +69,27 @@
 				},
 				{
 					"name": "derivedColumn5"
+				},
+				{
+					"name": "select4"
+				},
+				{
+					"name": "derivedColumn6"
+				},
+				{
+					"name": "derivedColumn7"
+				},
+				{
+					"name": "select5"
+				},
+				{
+					"name": "select6"
+				},
+				{
+					"name": "derivedColumn8"
+				},
+				{
+					"name": "derivedColumn9"
 				}
 			],
 			"scriptLines": [
@@ -85,6 +120,33 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source2",
+				"source(output(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source3",
+				"source(output(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string,",
+				"          Column_7 as string,",
+				"          Column_8 as string,",
+				"          Column_9 as string,",
+				"          Column_10 as string,",
+				"          Column_11 as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source4",
 				"source1 select(mapColumn(",
 				"          CustomerID = Column_1,",
 				"          LastName = Column_2,",
@@ -124,9 +186,48 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select3",
 				"derivedColumn3 derive(UniqueID = concat(toString(SourceID), CustomerID)) ~> derivedColumn4",
-				"derivedColumn2, derivedColumn4 union(byName: true)~> union1",
+				"derivedColumn2, derivedColumn4, derivedColumn7, derivedColumn9 union(byName: true)~> union1",
 				"union1 derive(CreatedDate = toTimestamp(CreatedDate),",
 				"          UpdatedDate = toTimestamp(UpdatedDate)) ~> derivedColumn5",
+				"source3 select(mapColumn(",
+				"          CustomerID = Column_1,",
+				"          LastName = Column_2,",
+				"          FirstName = Column_3,",
+				"          PhoneNumber = Column_4,",
+				"          CreatedDate = Column_5,",
+				"          UpdatedDate = Column_6",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select4",
+				"select4 derive(SourceID = 1) ~> derivedColumn6",
+				"derivedColumn6 derive(UniqueID = concat(toString(SourceID), CustomerID)) ~> derivedColumn7",
+				"source4 select(mapColumn(",
+				"          CustomerID = Column_1,",
+				"          LastName = Column_2,",
+				"          FirstName = Column_3,",
+				"          AddressLine1 = Column_4,",
+				"          AddressLine2 = Column_5,",
+				"          City = Column_6,",
+				"          State = Column_7,",
+				"          ZipCode = Column_8,",
+				"          PhoneNumber = Column_9,",
+				"          CreatedDate = Column_10,",
+				"          UpdatedDate = Column_11",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select5",
+				"select5 select(mapColumn(",
+				"          CustomerID,",
+				"          LastName,",
+				"          FirstName,",
+				"          PhoneNumber,",
+				"          CreatedDate,",
+				"          UpdatedDate",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select6",
+				"select6 derive(SourceID = 3) ~> derivedColumn8",
+				"derivedColumn8 derive(UniqueID = concat(toString(SourceID), CustomerID)) ~> derivedColumn9",
 				"derivedColumn5 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
