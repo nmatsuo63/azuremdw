@@ -12,8 +12,26 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Streaming",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          Column_1 as string,",
@@ -26,7 +44,29 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1"
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 select(mapColumn(",
+				"          TransactionID = Column_1,",
+				"          CustomerID = Column_2,",
+				"          MovieID = Column_3,",
+				"          StreamStart = Column_4,",
+				"          StreamEnd = Column_5",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 derive(SourceID = 1) ~> derivedColumn1",
+				"derivedColumn1 derive(UniqueOrderID = concat(toString(SourceID),TransactionID),",
+				"          UniqueMovieID = concat(toString(SourceID),MovieID),",
+				"          UniqueCustomerID = concat(toString(SourceID),CustomerID),",
+				"          StreamStart = toTimestamp(StreamStart),",
+				"          StreamEnd = toTimestamp(StreamEnd)) ~> derivedColumn2",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
