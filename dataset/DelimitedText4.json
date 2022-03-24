@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "dboCustomers.txt",
-				"folderPath": "cloudstreaming",
+				"fileName": "dboOrders.txt",
+				"folderPath": "cloudsales",
 				"fileSystem": "synapsefsmatsuo"
 			},
 			"columnDelimiter": ",",
@@ -19,6 +19,9 @@
 			"quoteChar": "\""
 		},
 		"schema": [
+			{
+				"type": "String"
+			},
 			{
 				"type": "String"
 			},
