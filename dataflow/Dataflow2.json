@@ -41,6 +41,9 @@
 				},
 				{
 					"name": "derivedColumn4"
+				},
+				{
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
@@ -109,7 +112,10 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select3",
-				"derivedColumn3 derive(UniqueID = concat(toString(SourceID), CustomerID)) ~> derivedColumn4"
+				"derivedColumn3 derive(UniqueID = concat(toString(SourceID), CustomerID)) ~> derivedColumn4",
+				"derivedColumn4, derivedColumn2 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'outer',",
+				"     broadcast: 'auto')~> join1"
 			]
 		}
 	}
