@@ -40,7 +40,7 @@
 					"name": "derivedColumn4"
 				},
 				{
-					"name": "union1"
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
@@ -70,8 +70,8 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> Orders",
 				"OrderDetails select(mapColumn(",
-				"          OrderID = Column_1,",
-				"          OrderDetailsID = Column_2,",
+				"          OrderDetailsID = Column_1,",
+				"          OrderID = Column_2,",
 				"          MovieID = Column_3,",
 				"          Quantity = Column_4,",
 				"          {Unit Cost} = Column_5,",
@@ -89,7 +89,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
 				"select1 derive(SourceID = 1) ~> derivedColumn1",
-				"derivedColumn1 derive(UniqueOrderID = concat(toString(SourceID), OrderDetailsID),",
+				"derivedColumn1 derive(UniqueOrderID = concat(toString(SourceID), OrderID),",
 				"          UniqueMovieID = concat(toString(SourceID), MovieID),",
 				"          Quantity = toInteger(Quantity),",
 				"          {Unit Cost} = toFloat({Unit Cost}),",
@@ -99,7 +99,9 @@
 				"          OrderDate = toTimestamp(OrderDate),",
 				"          ShipDate = toTimestamp(ShipDate),",
 				"          TotalCost = toFloat(TotalCost)) ~> derivedColumn4",
-				"derivedColumn2, derivedColumn4 union(byName: true)~> union1"
+				"derivedColumn2, derivedColumn4 join(select1@OrderID == select2@OrderID,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join1"
 			]
 		}
 	}
