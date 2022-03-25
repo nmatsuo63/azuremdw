@@ -1,0 +1,24 @@
+{
+	"name": "Streaming",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synapsewsmatsuo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Streaming",
+				"folderPath": "intermediate/Streaming",
+				"fileSystem": "synapsefsmatsuo"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

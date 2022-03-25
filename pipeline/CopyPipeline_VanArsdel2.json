@@ -1,9 +1,9 @@
 {
-	"name": "CopyPipeline_cloudstreaming",
+	"name": "CopyPipeline_VanArsdel2",
 	"properties": {
 		"activities": [
 			{
-				"name": "ForEach_u9b",
+				"name": "ForEach_vr9",
 				"type": "ForEach",
 				"dependsOn": [],
 				"userProperties": [],
@@ -14,7 +14,7 @@
 					},
 					"activities": [
 						{
-							"name": "Copy_u9b",
+							"name": "Copy_vr9",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -31,12 +31,12 @@
 								},
 								{
 									"name": "Destination",
-									"value": "synapsefsmatsuo/cloudstreaming/@{item().destination.fileName}"
+									"value": "synapsefsmatsuo/VanArsdel/@{item().destination.fileName}"
 								}
 							],
 							"typeProperties": {
 								"source": {
-									"type": "AzureSqlSource",
+									"type": "SqlServerSource",
 									"partitionOption": "None"
 								},
 								"sink": {
@@ -55,7 +55,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "SourceDataset_u9b",
+									"referenceName": "SourceDataset_vr9",
 									"type": "DatasetReference",
 									"parameters": {
 										"cw_table": "@item().source.table"
@@ -64,7 +64,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DestinationDataset_u9b",
+									"referenceName": "DestinationDataset_vr9",
 									"type": "DatasetReference",
 									"parameters": {
 										"cw_fileName": "@item().destination.fileName"
@@ -82,10 +82,10 @@
 				"defaultValue": [
 					{
 						"source": {
-							"table": "Addresses"
+							"table": "Actors"
 						},
 						"destination": {
-							"fileName": "dboAddresses.txt"
+							"fileName": "dboActors.txt"
 						}
 					},
 					{
@@ -94,6 +94,30 @@
 						},
 						"destination": {
 							"fileName": "dboCustomers.txt"
+						}
+					},
+					{
+						"source": {
+							"table": "MovieActors"
+						},
+						"destination": {
+							"fileName": "dboMovieActors.txt"
+						}
+					},
+					{
+						"source": {
+							"table": "Movies"
+						},
+						"destination": {
+							"fileName": "dboMovies.txt"
+						}
+					},
+					{
+						"source": {
+							"table": "OnlineMovieMappings"
+						},
+						"destination": {
+							"fileName": "dboOnlineMovieMappings.txt"
 						}
 					},
 					{
@@ -107,11 +131,6 @@
 				]
 			}
 		},
-		"folder": {
-			"name": "Extract"
-		},
-		"annotations": [],
-		"lastPublishTime": "2022-03-23T04:51:55Z"
-	},
-	"type": "Microsoft.Synapse/workspaces/pipelines"
+		"annotations": []
+	}
 }

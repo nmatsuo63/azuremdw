@@ -1,0 +1,23 @@
+{
+	"name": "Southridge_Catalog_raw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synapsewsmatsuo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "data_67dc84b8-43a6-499b-9ea6-f8371ff159bb_1c91e8a7-44a6-4cd4-9002-6ab69a168150.txt",
+				"folderPath": "catalog",
+				"fileSystem": "synapsefsmatsuo"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

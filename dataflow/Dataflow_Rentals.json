@@ -1,0 +1,101 @@
+{
+	"name": "Dataflow_Rentals",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "VanArsdel_Transactions",
+						"type": "DatasetReference"
+					},
+					"name": "VanArsdelTransactions"
+				},
+				{
+					"dataset": {
+						"referenceName": "FourthCofffee_Transactions",
+						"type": "DatasetReference"
+					},
+					"name": "FourthCoffeeRentalsTransactions"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Rentals",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "AddSourceIDToVanArsdel"
+				},
+				{
+					"name": "AddSourceIDToFourthCoffee"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          TransactionID as string,",
+				"          CustomerID as string,",
+				"          MovieID as string,",
+				"          RentalDate as string,",
+				"          ReturnDate as string,",
+				"          RentalCost as string,",
+				"          LateFee as string,",
+				"          RewindFlag as string,",
+				"          CreatedDate as string,",
+				"          UpdatedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> VanArsdelTransactions",
+				"source(output(",
+				"          TransactionID as string,",
+				"          CustomerID as string,",
+				"          MovieID as string,",
+				"          RentalDate as string,",
+				"          ReturnDate as string,",
+				"          RentalCost as string,",
+				"          LateFee as string,",
+				"          RewindFlag as string,",
+				"          CreatedDate as string,",
+				"          UpdatedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> FourthCoffeeRentalsTransactions",
+				"AddSourceIDToVanArsdel, AddSourceIDToFourthCoffee union(byName: true)~> union1",
+				"union1 derive(UniqueTransactionID = concat(toString(SourceID), TransactionID),",
+				"          UniqueCustomerID = concat(toString(SourceID),CustomerID),",
+				"          UniqueMovieID = concat(toString(SourceID),MovieID),",
+				"          RentalDate = toTimestamp(RentalDate, 'yyyyMMdd'),",
+				"          ReturnDate = toTimestamp(ReturnDate, 'yyyyMMdd'),",
+				"          RentalCost = toFloat(RentalCost),",
+				"          LateFee = toFloat(LateFee),",
+				"          RewindFlag = toBoolean(RewindFlag)) ~> derivedColumn1",
+				"VanArsdelTransactions derive(SourceID = 2,",
+				"          CreatedDate = toTimestamp(CreatedDate),",
+				"          UpdatedDate = toTimestamp(UpdatedDate)) ~> AddSourceIDToVanArsdel",
+				"FourthCoffeeRentalsTransactions derive(SourceID = 3,",
+				"          CreatedDate = toTimestamp(CreatedDate,'yyyy-MM-dd'),",
+				"          UpdatedDate = toTimestamp(UpdatedDate, 'yyyy-MM-dd')) ~> AddSourceIDToFourthCoffee",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

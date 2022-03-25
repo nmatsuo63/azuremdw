@@ -1,0 +1,23 @@
+{
+	"name": "intermid_Customers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synapsewsmatsuo-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "intermediate/Customer",
+				"fileSystem": "synapsefsmatsuo"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
