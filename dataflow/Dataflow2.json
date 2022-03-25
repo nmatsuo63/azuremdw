@@ -34,9 +34,6 @@
 					"name": "derivedColumn2"
 				},
 				{
-					"name": "derivedColumn3"
-				},
-				{
 					"name": "derivedColumn4"
 				},
 				{
@@ -94,8 +91,7 @@
 				"          Quantity = toInteger(Quantity),",
 				"          {Unit Cost} = toFloat({Unit Cost}),",
 				"          {Line Number} = toInteger({Line Number})) ~> derivedColumn2",
-				"select2 derive(SourceID = 1) ~> derivedColumn3",
-				"derivedColumn3 derive(UniqueCustomerID = concat(toString(SourceID), CustomerID),",
+				"select2 derive(UniqueCustomerID = concat(toString(1), CustomerID),",
 				"          OrderDate = toTimestamp(OrderDate),",
 				"          ShipDate = toTimestamp(ShipDate),",
 				"          TotalCost = toFloat(TotalCost)) ~> derivedColumn4",
