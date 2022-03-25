@@ -4,6 +4,51 @@
 	"parameters": {
 		"workspaceName": {
 			"value": "synapsewsmatsuo"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabase_streaming_connectionString": {
+			"value": ""
+		},
+		"CosmosDb_catalog_connectionString": {
+			"value": ""
+		},
+		"FileServer1_password": {
+			"value": ""
+		},
+		"FileServer2_password": {
+			"value": ""
+		},
+		"SqlServer1_connectionString": {
+			"value": ""
+		},
+		"SqlServer2_connectionString": {
+			"value": ""
+		},
+		"synapsewsmatsuo-WorkspaceDefaultSqlServer_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://southridgestorage01.dfs.core.windows.net"
+		},
+		"FileServer1_properties_typeProperties_host": {
+			"value": "C:\\Transactions_2018"
+		},
+		"FileServer1_properties_typeProperties_userId": {
+			"value": "southridge"
+		},
+		"FileServer2_properties_typeProperties_host": {
+			"value": "C:\\Rentals"
+		},
+		"FileServer2_properties_typeProperties_userId": {
+			"value": "southridge"
+		},
+		"synapsewsmatsuo-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://southridgestorage01.dfs.core.windows.net"
 		}
 	}
 }
