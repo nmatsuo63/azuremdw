@@ -1,0 +1,26 @@
+{
+	"name": "DestinationDataset_s7g",
+	"properties": {
+		"annotations": [],
+		"type": "SqlPoolTable",
+		"schema": [
+			{
+				"name": "MovieCategorySK",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "MovieCategoryDescription",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCategories"
+		},
+		"sqlPool": {
+			"referenceName": "sqlSouthridge",
+			"type": "SqlPoolReference"
+		}
+	}
+}
