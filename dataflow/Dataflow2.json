@@ -19,7 +19,15 @@
 					"name": "Orders"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText8",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "select1"
@@ -97,7 +105,14 @@
 				"          TotalCost = toFloat(TotalCost)) ~> derivedColumn4",
 				"derivedColumn2, derivedColumn4 join(select1@OrderID == select2@OrderID,",
 				"     joinType:'inner',",
-				"     broadcast: 'auto')~> join1"
+				"     broadcast: 'auto')~> join1",
+				"join1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
