@@ -90,6 +90,15 @@
 				},
 				{
 					"name": "derivedColumn9"
+				},
+				{
+					"name": "derivedColumn10"
+				},
+				{
+					"name": "derivedColumn11"
+				},
+				{
+					"name": "derivedColumn12"
 				}
 			],
 			"scriptLines": [
@@ -225,10 +234,16 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select6",
-				"derivedColumn2, derivedColumn4, derivedColumn6, derivedColumn8 union(byName: true)~> union1",
-				"union1 derive(CreatedDate = toTimestamp(CreatedDate),",
+				"derivedColumn9, derivedColumn10, derivedColumn11, derivedColumn12 union(byName: true)~> union1",
+				"derivedColumn2 derive(CreatedDate = toTimestamp(CreatedDate),",
 				"          UpdatedDate = toTimestamp(UpdatedDate)) ~> derivedColumn9",
-				"derivedColumn9 sink(allowSchemaDrift: true,",
+				"derivedColumn4 derive(CreatedDate = toTimestamp(CreatedDate),",
+				"          UpdatedDate = toTimestamp(UpdatedDate)) ~> derivedColumn10",
+				"derivedColumn6 derive(CreatedDate = toTimestamp(CreatedDate),",
+				"          UpdatedDate = toTimestamp(UpdatedDate)) ~> derivedColumn11",
+				"derivedColumn8 derive(CreatedDate = toTimestamp(CreatedDate,'yyyy-mm-dd'),",
+				"          UpdatedDate = toTimestamp(UpdatedDate,'yyyy-mm-dd')) ~> derivedColumn12",
+				"union1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
 				"     preCommands: [],",
