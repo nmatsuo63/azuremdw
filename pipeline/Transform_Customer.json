@@ -27,6 +27,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"Southridge": {
+				"type": "int",
+				"defaultValue": 1
+			}
+		},
 		"folder": {
 			"name": "Transform"
 		},
