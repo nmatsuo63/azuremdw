@@ -1,0 +1,76 @@
+{
+	"name": "Dataflow_Rentals",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "VanArsdel_Transactions",
+						"type": "DatasetReference"
+					},
+					"name": "VanArsdelTransactions"
+				},
+				{
+					"dataset": {
+						"referenceName": "FourthCofffee_Transactions",
+						"type": "DatasetReference"
+					},
+					"name": "FourthCoffeeRentalsTransactions"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "AddSourceIDToVanArsdel"
+				},
+				{
+					"name": "AddSourceIDToFourthCoffee"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          TransactionID as string,",
+				"          CustomerID as string,",
+				"          MovieID as string,",
+				"          RentalDate as string,",
+				"          ReturnDate as string,",
+				"          RentalCost as string,",
+				"          LateFee as string,",
+				"          RewindFlag as string,",
+				"          CreatedDate as string,",
+				"          UpdatedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> VanArsdelTransactions",
+				"source(output(",
+				"          TransactionID as string,",
+				"          CustomerID as string,",
+				"          MovieID as string,",
+				"          RentalDate as string,",
+				"          ReturnDate as string,",
+				"          RentalCost as string,",
+				"          LateFee as string,",
+				"          RewindFlag as string,",
+				"          CreatedDate as string,",
+				"          UpdatedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> FourthCoffeeRentalsTransactions",
+				"AddSourceIDToVanArsdel, AddSourceIDToFourthCoffee union(byName: true)~> union1",
+				"union1 derive(UniqueTransactionID = concat(toString(SourceID), TransactionID),",
+				"          UniqueCustomer = ERROR_FUNCTION('')) ~> derivedColumn1",
+				"VanArsdelTransactions derive(SourceID = 2) ~> AddSourceIDToVanArsdel",
+				"FourthCoffeeRentalsTransactions derive(SourceID = 3) ~> AddSourceIDToFourthCoffee"
+			]
+		}
+	}
+}
