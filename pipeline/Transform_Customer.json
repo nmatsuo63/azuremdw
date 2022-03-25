@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "Dataflow2",
+						"referenceName": "Dataflow_Customer",
 						"type": "DataFlowReference"
 					},
 					"compute": {
