@@ -1,0 +1,257 @@
+{
+	"name": "Dataflow_Address",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Cloudsales_Address",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "cloudstreaming_Address",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "Vanarsdel_Customer",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "FourthCofee_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "source4"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "intermid__Address",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
+				},
+				{
+					"name": "derivedColumn3"
+				},
+				{
+					"name": "derivedColumn4"
+				},
+				{
+					"name": "select3"
+				},
+				{
+					"name": "derivedColumn5"
+				},
+				{
+					"name": "derivedColumn6"
+				},
+				{
+					"name": "select5"
+				},
+				{
+					"name": "derivedColumn7"
+				},
+				{
+					"name": "derivedColumn8"
+				},
+				{
+					"name": "union1"
+				},
+				{
+					"name": "derivedColumn9"
+				},
+				{
+					"name": "select7"
+				},
+				{
+					"name": "select8"
+				},
+				{
+					"name": "select9"
+				},
+				{
+					"name": "select10"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string,",
+				"          Column_7 as string,",
+				"          Column_8 as string,",
+				"          Column_9 as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string,",
+				"          Column_7 as string,",
+				"          Column_8 as string,",
+				"          Column_9 as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source2",
+				"source(output(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string,",
+				"          Column_7 as string,",
+				"          Column_8 as string,",
+				"          Column_9 as string,",
+				"          Column_10 as string,",
+				"          Column_11 as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source3",
+				"source(output(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string,",
+				"          Column_7 as string,",
+				"          Column_8 as string,",
+				"          Column_9 as string,",
+				"          Column_10 as string,",
+				"          Column_11 as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source4",
+				"select7 derive(SourceID = 1) ~> derivedColumn1",
+				"derivedColumn1 derive(UniqueID = concat(toString(SourceID), CustomerID, AddressID)) ~> derivedColumn2",
+				"select8 derive(SourceID = 1) ~> derivedColumn3",
+				"derivedColumn3 derive(UniqueID = concat(toString(SourceID), CustomerID, AddressID)) ~> derivedColumn4",
+				"source3 select(mapColumn(",
+				"          CustomerID = Column_1,",
+				"          LastName = Column_2,",
+				"          FirstName = Column_3,",
+				"          AddressLine1 = Column_4,",
+				"          AddressLine2 = Column_5,",
+				"          City = Column_6,",
+				"          State = Column_7,",
+				"          ZipCode = Column_8,",
+				"          PhoneNumber = Column_9,",
+				"          CreatedDate = Column_10,",
+				"          UpdatedDate = Column_11",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3",
+				"select9 derive(SourceID = 2) ~> derivedColumn5",
+				"derivedColumn5 derive(UniqueID = concat(toString(SourceID), CustomerID)) ~> derivedColumn6",
+				"source4 select(mapColumn(",
+				"          CustomerID = Column_1,",
+				"          LastName = Column_2,",
+				"          FirstName = Column_3,",
+				"          AddressLine1 = Column_4,",
+				"          AddressLine2 = Column_5,",
+				"          City = Column_6,",
+				"          State = Column_7,",
+				"          ZipCode = Column_8,",
+				"          PhoneNumber = Column_9,",
+				"          CreatedDate = Column_10,",
+				"          UpdatedDate = Column_11",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select5",
+				"select10 derive(SourceID = 3) ~> derivedColumn7",
+				"derivedColumn7 derive(UniqueID = concat(toString(SourceID), CustomerID)) ~> derivedColumn8",
+				"derivedColumn2, derivedColumn4, derivedColumn6, derivedColumn8 union(byName: true)~> union1",
+				"union1 derive(CreatedDate = toTimestamp(CreatedDate),",
+				"          UpdatedDate = toTimestamp(UpdatedDate)) ~> derivedColumn9",
+				"source1 select(mapColumn(",
+				"          AddressID = Column_1,",
+				"          CustomerID = Column_2,",
+				"          AddressLine1 = Column_3,",
+				"          AddressLine2 = Column_4,",
+				"          City = Column_5,",
+				"          State = Column_6,",
+				"          ZipCode = Column_7,",
+				"          CreatedDate = Column_8,",
+				"          UpdatedDate = Column_9",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select7",
+				"source2 select(mapColumn(",
+				"          AddressID = Column_1,",
+				"          CustomerID = Column_2,",
+				"          AddressLine1 = Column_3,",
+				"          AddressLine2 = Column_4,",
+				"          City = Column_5,",
+				"          State = Column_6,",
+				"          ZipCode = Column_7,",
+				"          CreatedDate = Column_8,",
+				"          UpdatedDate = Column_9",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select8",
+				"select3 select(mapColumn(",
+				"          CustomerID,",
+				"          AddressLine1,",
+				"          AddressLine2,",
+				"          City,",
+				"          State,",
+				"          ZipCode,",
+				"          CreatedDate,",
+				"          UpdatedDate",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select9",
+				"select5 select(mapColumn(",
+				"          CustomerID,",
+				"          AddressLine1,",
+				"          AddressLine2,",
+				"          City,",
+				"          State,",
+				"          ZipCode,",
+				"          CreatedDate,",
+				"          UpdatedDate",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select10",
+				"derivedColumn9 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
