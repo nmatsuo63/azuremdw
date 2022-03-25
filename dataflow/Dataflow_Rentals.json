@@ -66,8 +66,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> FourthCoffeeRentalsTransactions",
 				"AddSourceIDToVanArsdel, AddSourceIDToFourthCoffee union(byName: true)~> union1",
-				"union1 derive(UniqueTransactionID = concat(toString(SourceID), TransactionID),",
-				"          UniqueCustomer = ERROR_FUNCTION('')) ~> derivedColumn1",
+				"union1 derive(UniqueTransactionID = concat(toString(SourceID), TransactionID)) ~> derivedColumn1",
 				"VanArsdelTransactions derive(SourceID = 2) ~> AddSourceIDToVanArsdel",
 				"FourthCoffeeRentalsTransactions derive(SourceID = 3) ~> AddSourceIDToFourthCoffee"
 			]
